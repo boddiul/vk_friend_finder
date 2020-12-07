@@ -1,6 +1,9 @@
 
 
 
+
+
+
 var FUNCTION = 'function';
 var UNDEFINED = 'undefined';
 var subscribers = [];
@@ -160,27 +163,46 @@ function supports(handler) {
 };
 
 
+
+access_token = -1
+
+function getUserGroups() {
+    send("VKWebAppCallAPIMethod", {
+        "method":"groups.get",
+        "request_id":"initGroups",
+        "params": {
+            "access_token":access_token,
+            "v":"5.126"
+        }});
+}
+
+
 function checker(event)
 {
 
     console.log(event)
 
 
-/*
-    if (event.detail.type==="VKWebAppAccessTokenReceived"){
-        t = event.detail.data.access_token
 
-        send("VKWebAppCallAPIMethod", {
-            "method":"users.get",
-            "request_id":"0",
-            "params": {
-                "fields":"crop_photo",
-                "access_token":t,
-                "v":"5.122"
-            }});
+
+
+
+
+
+    if (event.detail.type==="VKWebAppAccessTokenReceived"){
+        access_token = event.detail.data.access_token
+
+        getUserGroups();
     }
 
+    if (event.detail.type==="VKWebAppCallAPIMethodResult") {
 
+        if (event.detail.data.request_id === "initGroups") {
+            console.log('ok');
+        }
+    }
+
+/*
     if (event.detail.type==="VKWebAppCallAPIMethodResult") {
 
         if (event.detail.data.request_id === "0") {
