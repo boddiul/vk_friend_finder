@@ -329,6 +329,9 @@ function checker(event)
                         return e['id']===groupsIds[i];
                     });
 
+
+                    console.log(groupPos);
+
                     if (req[1]==='start')
                     {
                         userGroups[groupPos]['scanned'] = true;
@@ -352,7 +355,10 @@ function checker(event)
                 for (let i= 0;i<userGroups.length;i++)
                     if (userGroups[i]['scanned'])
                         totalScanned+=1;
-                    console.log('progress '+totalScanned+'/'+userGroups.length);
+
+
+
+                console.log('progress '+totalScanned+'/'+userGroups.length);
 
 
 
