@@ -192,7 +192,7 @@ function apiGetMembers(groupId)
 TIME_DELAY = 233;
 
 function getMembersStart(groups) {
-    for (let i=0;i<10;i++) //groups.length
+    for (let i=0;i<groups.length;i++)
     {
 
         let g = groups[i];
@@ -239,7 +239,7 @@ function checker(event)
 
 
 
-                console.log('COMPLETE'+event.detail.data.response.count)
+                console.log('COMPLETE '+req[1]+' '+event.detail.data.response.count)
                 break;
         }
     }
@@ -253,100 +253,10 @@ function checker(event)
         switch ( req[0] ) {
             case "getMembers":
                 let group = req[1]
-                setTimeout(function() { apiGetMembers(group); }, TIME_DELAY*i);
+                setTimeout(function() { apiGetMembers(group); }, TIME_DELAY);
                 break;
         }
     }
-
-/*
-    if (event.detail.type==="VKWebAppCallAPIMethodResult") {
-
-        if (event.detail.data.request_id === "0") {
-
-            document.getElementById("load").style.display = "none"
-            try {
-                crop = event.detail.data.response[0].crop_photo.crop
-                var sz = event.detail.data.response[0].crop_photo.photo.sizes
-                photo_url = sz[sz.length - 1].url
-                img.src = photo_url
-            }
-            catch (e) {
-                img.src = "white.jpg"
-            }
-
-
-
-        }
-        else if (event.detail.data.request_id === "1") {
-
-
-            let upload_url = event.detail.data.response.upload_url
-            let dataURL = canvas.toDataURL()
-
-            console.log(dataURL)
-
-            $.ajax({
-                type: "POST",
-                url: "https://lentachimg.aaaaa.team/",
-                data: {
-                    upload_url: upload_url,
-                    imgBase64: dataURL
-                }
-            }).done(function(o) {
-
-                console.log(o)
-
-                img_hash = o.hash
-
-                send("VKWebAppCallAPIMethod", {
-                    "method":"photos.saveWallPhoto",
-                    "request_id":"2",
-                    "params": {
-                        "server":o.server,
-                        "photo":o.photo,
-                        "hash":o.hash,
-
-                        "access_token":t,
-                        "v":"5.122"
-                    }});
-
-
-
-            });
-
-
-        }
-        else if (event.detail.data.request_id === "2") {
-
-            console.log("_________")
-
-            var owner_id = event.detail.data.response[0].owner_id;
-            var photo_id = event.detail.data.response[0].id;
-            console.log
-            //VK.callMethod("showProfilePhotoBox",event.detail.data.response.photo_hash)
-
-
-            send("VKWebAppShowWallPostBox", {
-                "message":"#ЖывеБеларусь",
-                "attachments":"photo"+owner_id+"_"+photo_id+",https://vk.com/app7565667"
-            });
-
-        }
-
-
-    }
-
-
-    if (event.detail.type==="VKWebAppShowStoryBoxResult" ||
-        event.detail.type==="VKWebAppShowStoryBoxFailed") {
-        document.getElementById("load").style.display = "none"
-    }
-
-
-    if (event.detail.type==="VKWebAppShowWallPostBoxResult" ||
-        event.detail.type==="VKWebAppShowWallPostBoxFailed") {
-        document.getElementById("load").style.display = "none"
-    }*/
 
 }
 
