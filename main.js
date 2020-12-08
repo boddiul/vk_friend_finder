@@ -246,7 +246,7 @@ function getMembersStart(groups) {
 
     //checkedGroups = 0;
     //totalGroupsToCheck = groups.length;
-
+    apiGetMembers('start',userGroups[0]);
 
     userGroups = groups;
 
