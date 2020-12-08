@@ -359,10 +359,10 @@ function checker(event)
                                 for (let j=0;j<25;j++)
                                     newIds.push(groupsIds[i]);
 
-                                for (let j=1;j<event.detail.data.response[i].count;j++)
+                                for (let j=1;j*1000<event.detail.data.response[i].count;j++)
                                 {
                                     newOffsets.push(j*1000);
-                                    if (j % 25 ===0 || j+1===event.detail.data.response[i].count)
+                                    if (j % 25 ===0 || (j+1)*1000>=event.detail.data.response[i].count)
                                     {
 
 
