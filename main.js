@@ -199,6 +199,7 @@ function apiGetMembersExecute(groupIds)
     ss+='];'
 
 
+    console.log(ss);
 
 
     send("VKWebAppCallAPIMethod", {
@@ -252,7 +253,7 @@ function getMembersStart(groups) {
 
         let gg = groups.slice(i,i+25)
 
-        console.log(gg);
+        //console.log(gg);
         setTimeout(function() { apiGetMembersExecute(gg); }, TIME_DELAY*i);
     }
 }
