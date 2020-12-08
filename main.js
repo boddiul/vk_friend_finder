@@ -250,7 +250,7 @@ function getMembersStart(groups) {
 
 
 
-    userGroups = [];
+    userGroups = groups;
 
 
 
@@ -344,7 +344,7 @@ function checker(event)
                     if (req[1]==='start')
                     {
 
-                        
+
 
                         if (event.detail.data.response[i]===false || event.detail.data.response[i].count>100000)
                         {
