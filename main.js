@@ -180,15 +180,15 @@ function getUserGroups() {
 }
 
 
-function apiGetMembersExecute(groupIds)
+function apiGetMembersExecute(type,groupIds,offsets)
 {
 
     let ss = 'return [';
     let gg = '';
     for (let i=0;i<groupIds.length;i++)
     {
-        ss+='API.groups.getMembers({"group_id":'+groupIds[i]+'})';
-        gg+=groupIds[i];
+        ss+='API.groups.getMembers({"group_id":'+groupIds[i]+',"offset":'+offsets[i]+'})';
+        gg+=groupIds[i]+'_'+offsets[i];
 
         if (i<groupIds.length-1)
         {
@@ -205,7 +205,7 @@ function apiGetMembersExecute(groupIds)
 
     send("VKWebAppCallAPIMethod", {
         "method":"execute",
-        "request_id":"getMembersExecute"+'_'+gg,
+        "request_id":"getMembersExecute_"+type+'_'+gg,
         "params": {
             "code":ss,
             "access_token":access_token,
@@ -246,19 +246,25 @@ function getMembersStart(groups) {
 
     userGroups = groups;
 
-    groupIds = []
-    for (let i=0;i<groups.length;i++)
+
+    groupIds = [];
+    offsets = [];
+    for (let i=0;i<userGroups.length;i++)
     {
 
-        groupIds.push(groups[i]['id']);
+        userGroups[i]['scanned'] = false;
+        userGroups[i]['failed'] = false;
+        groupIds.push(userGroups[i]['id']);
+        offsets.push(0);
 
     }
 
     for (let i=0;i<groupIds.length;i+=25)
     {
 
-        let gg = groupIds.slice(i,i+25)
-        apiGetMembersExecute(gg);
+        let gg = groupIds.slice(i,i+25);
+        let oo = offsets.slice(i,i+25);
+        apiGetMembersExecute('start',gg,oo);
         //console.log(gg);
         //setTimeout(function() {  }, TIME_DELAY*i);
     }
@@ -302,6 +308,54 @@ function checker(event)
                 checkedGroups+=1;
 
                 console.log('COMPLETE '+req[1]+' '+event.detail.data.response.count+' '+checkedGroups+'/'+totalGroupsToCheck)
+
+
+                break;
+
+            case "getMembersExecute":
+
+
+                let groupsIds = [];
+                let offsets = [];
+                for (let i=2;i<req.length;i+=2)
+                {
+                    groupsIds.push(req[i]);
+                    offsets.push(req[i+1]);
+                }
+
+                for (let i=0;i<groupsIds.length;i++)
+                {
+                    let groupPos = userGroups.findIndex(function (e) {
+                        return e['id']===groupsIds[i];
+                    });
+
+                    if (req[1]==='start')
+                    {
+                        userGroups[groupPos]['scanned'] = true;
+
+                        if (event.detail.data.response[i]===false)
+                        {
+                            userGroups[groupPos]['failed'] = true;
+                        }
+
+
+
+                    }
+
+
+
+
+                }
+
+
+                let totalScanned = 0;
+                for (let i= 0;i<userGroups.length;i++)
+                    if (userGroups[i]['scanned'])
+                        totalScanned+=1;
+                    console.log('progress '+totalScanned+'/'+userGroups.length);
+
+
+
 
 
                 break;
