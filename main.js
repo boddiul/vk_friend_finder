@@ -266,7 +266,7 @@ function getMembersStart(groups) {
         let oo = offsets.slice(i,i+25);
 
         //console.log(gg);
-        setTimeout(function() { apiGetMembersExecute('start',gg,oo); }, TIME_DELAY*i);
+        setTimeout(function() { apiGetMembersExecute('start',gg,oo); }, TIME_DELAY*i/25);
     }
 }
 
@@ -330,7 +330,6 @@ function checker(event)
                     });
 
 
-                    console.log(groupPos);
 
                     if (req[1]==='start')
                     {
