@@ -249,8 +249,8 @@ function getMembersStart(groups) {
 
     for (let i=0;i<groups.length;i+=25)
     {
-        
-        let gg = groups.subarray(i,i+25)
+
+        let gg = groups.slice(i,i+25)
 
         console.log(gg);
         setTimeout(function() { apiGetMembersExecute(gg); }, TIME_DELAY*i);
