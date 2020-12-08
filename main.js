@@ -264,9 +264,9 @@ function getMembersStart(groups) {
 
         let gg = groupIds.slice(i,i+25);
         let oo = offsets.slice(i,i+25);
-        apiGetMembersExecute('start',gg,oo);
+
         //console.log(gg);
-        //setTimeout(function() {  }, TIME_DELAY*i);
+        setTimeout(function() { apiGetMembersExecute('start',gg,oo); }, TIME_DELAY*i);
     }
 }
 
@@ -391,6 +391,21 @@ function checker(event)
                     console.log('STOP '+group);
                 }
 
+                break;
+
+            case "getMembersExecute":
+
+                let groupsIds = [];
+                let offsets = [];
+                for (let i=2;i<req.length;i+=2)
+                {
+                    groupsIds.push(Number(req[i]));
+                    offsets.push(Number(req[i+1]));
+                }
+
+
+
+                setTimeout(function() {  apiGetMembersExecute(req[1],groupsIds,offsets); }, TIME_DELAY);
                 break;
         }
     }
