@@ -346,7 +346,7 @@ function checker(event)
                         {
 
 
-                            if (event.detail.data.response.count<=1000)
+                            if (event.detail.data.response[i].count<=1000)
                             {
                                 userGroups[groupPos]['scanned'] = true;
                             }
@@ -359,10 +359,10 @@ function checker(event)
                                 for (let j=0;j<25;j++)
                                     newIds.push(groupsIds[i]);
 
-                                for (let j=1;j<event.detail.data.response.count;j++)
+                                for (let j=1;j<event.detail.data.response[i].count;j++)
                                 {
                                     newOffsets.push(j*1000);
-                                    if (j % 25 ===0 || j+1===event.detail.data.response.count)
+                                    if (j % 25 ===0 || j+1===event.detail.data.response[i].count)
                                     {
 
 
@@ -382,7 +382,7 @@ function checker(event)
                     } else if (req[1]==='extra')
                     {
 
-                        if (event.detail.data.response.count<=offsets[i]+1000)
+                        if (event.detail.data.response[i].count<=offsets[i]+1000)
                         {
                             userGroups[groupPos]['scanned'] = true;
                         }
