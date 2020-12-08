@@ -356,11 +356,10 @@ function checker(event)
                                 let newOffsets = [];
                                 let newIds = [];
 
-                                for (let j=0;j<25;j++)
-                                    newIds.push(groupsIds[i]);
 
                                 for (let j=1;j*1000<event.detail.data.response[i].count;j++)
                                 {
+                                    newIds.push(groupsIds[i]);
                                     newOffsets.push(j*1000);
                                     if (j % 25 ===0 || (j+1)*1000>=event.detail.data.response[i].count)
                                     {
@@ -368,6 +367,7 @@ function checker(event)
 
                                         apiGetMembersExecute('extra',newIds,newOffsets);
                                         newOffsets = [];
+                                        newIds = [];
                                     }
                                 }
 
