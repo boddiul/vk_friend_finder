@@ -189,7 +189,7 @@ function apiGetMembersExecute(groupIds)
         ss+='API.groups.getMembers({"group_id":'+groupIds[i]+'})';
         gg+=groupIds[i];
 
-        if (i<groupIds-1)
+        if (i<groupIds.length-1)
         {
             ss+=',';
             gg+='_';
