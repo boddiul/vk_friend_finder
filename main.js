@@ -177,6 +177,27 @@ function getUserGroups() {
 }
 
 
+
+function getMembersStart(groups) {
+    for (let i=0;i<groups.length;i++)
+    {
+        let g = groups[i];
+        console.log(g);
+        send("VKWebAppCallAPIMethod", {
+            "method":"groups.getMembers",
+            "request_id":"getMembers",
+            "group_id":g,
+            "params": {
+                "access_token":access_token,
+                "v":"5.126"
+            }});
+    }
+}
+
+function checkMembersComplete() {
+
+}
+
 function checker(event)
 {
 
@@ -197,8 +218,14 @@ function checker(event)
 
     if (event.detail.type==="VKWebAppCallAPIMethodResult") {
 
-        if (event.detail.data.request_id === "initGroups") {
-            console.log('ok');
+        switch (event.detail.data.request_id  ) {
+            case "initGroups":
+                getMembersStart(event.detail.data.response.items);
+                break;
+
+            case "getMembers":
+                console.log('COMPLETE'+event.detail.data.response.count)
+                break;
         }
     }
 
