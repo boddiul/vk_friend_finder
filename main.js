@@ -248,7 +248,12 @@ function getMembersStart(groups) {
     //totalGroupsToCheck = groups.length;
 
 
-    userGroups = groups;
+
+
+    userGroups = [];
+
+
+
     apiGetMembers('start',userGroups[0]);
 
     groupIds = [];
@@ -303,6 +308,7 @@ function checker(event)
 
         switch ( req[0] ) {
             case "initGroups":
+
                 getMembersStart(event.detail.data.response.items);
                 break;
 
@@ -338,9 +344,12 @@ function checker(event)
                     if (req[1]==='start')
                     {
 
-                        if (event.detail.data.response[i]===false)
+                        
+
+                        if (event.detail.data.response[i]===false || event.detail.data.response[i].count>100000)
                         {
                             userGroups[groupPos]['failed'] = true;
+                            userGroups[groupPos]['scanned'] = true;
                         }
                         else
                         {
