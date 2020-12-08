@@ -319,8 +319,8 @@ function checker(event)
                 let offsets = [];
                 for (let i=2;i<req.length;i+=2)
                 {
-                    groupsIds.push(req[i]);
-                    offsets.push(req[i+1]);
+                    groupsIds.push(Number(req[i]));
+                    offsets.push(Number(req[i+1]));
                 }
 
                 for (let i=0;i<groupsIds.length;i++)
