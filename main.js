@@ -333,15 +333,54 @@ function checker(event)
 
                     if (req[1]==='start')
                     {
-                        userGroups[groupPos]['scanned'] = true;
 
                         if (event.detail.data.response[i]===false)
                         {
                             userGroups[groupPos]['failed'] = true;
                         }
+                        else
+                        {
+
+
+                            if (event.detail.data.response.count<=1000)
+                            {
+                                userGroups[groupPos]['scanned'] = true;
+                            }
+                            else
+                            {
+
+                                let newOffsets = [];
+                                let newIds = [];
+
+                                for (let j=0;j<25;j++)
+                                    newIds.push(groupsIds[i]);
+
+                                for (let j=1;j<event.detail.data.response.count;j++)
+                                {
+                                    newOffsets.push(j*1000);
+                                    if (j % 25 ===0 || j+1===event.detail.data.response.count)
+                                    {
+
+                                        apiGetMembersExecute('extra',newIds,newOffsets);
+                                        newOffsets = [];
+                                    }
+                                }
+
+                                //userGroups[groupPos]['scanned'] = true;
+                            }
+
+
+                        }
 
 
 
+                    } else if (req[1]==='extra')
+                    {
+
+                        if (event.detail.data.response.count<=offsets[i]+1000)
+                        {
+                            userGroups[groupPos]['scanned'] = true;
+                        }
                     }
 
 
