@@ -359,6 +359,8 @@ function checker(event)
 
                                 for (let j=1;j*1000<event.detail.data.response[i].count;j++)
                                 {
+                                    if (j>20)
+                                        console.log(j,event.detail.data.response[i].count);
                                     newIds.push(groupsIds[i]);
                                     newOffsets.push(j*1000);
                                     if (j % 25 ===0 || (j+1)*1000>=event.detail.data.response[i].count)
