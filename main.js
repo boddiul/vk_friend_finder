@@ -183,6 +183,10 @@ function getUserGroups() {
 function apiGetMembersExecute(type,groupIds,offsets)
 {
 
+
+    console.log(type,groupIds,offsets)
+
+
     let ss = 'return [';
     let gg = '';
     for (let i=0;i<groupIds.length;i++)
@@ -200,7 +204,7 @@ function apiGetMembersExecute(type,groupIds,offsets)
     ss+='];'
 
 
-    console.log(ss);
+    //console.log(ss);
 
 
     send("VKWebAppCallAPIMethod", {
@@ -360,6 +364,7 @@ function checker(event)
                                     newOffsets.push(j*1000);
                                     if (j % 25 ===0 || j+1===event.detail.data.response.count)
                                     {
+
 
                                         apiGetMembersExecute('extra',newIds,newOffsets);
                                         newOffsets = [];
