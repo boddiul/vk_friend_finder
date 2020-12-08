@@ -173,6 +173,7 @@ function getUserGroups() {
         "method":"groups.get",
         "request_id":"initGroups",
         "params": {
+            "extended":1,
             "access_token":access_token,
             "v":"5.126"
         }});
@@ -232,29 +233,34 @@ TIME_DELAY = 300;
 
 
 
-totalGroupsToCheck = -1;
-checkedGroups = -1;
+//totalGroupsToCheck = -1;
+//checkedGroups = -1;
+
+
+
 function getMembersStart(groups) {
 
-    checkedGroups = 0;
-    totalGroupsToCheck = groups.length;
-    /*for (let i=0;i<groups.length;i++)
+    //checkedGroups = 0;
+    //totalGroupsToCheck = groups.length;
+
+
+    userGroups = groups;
+
+    groupIds = []
+    for (let i=0;i<groups.length;i++)
     {
 
-        let g = groups[i];
-        console.log(g);
+        groupIds.push(groups[i]['id']);
 
-        setTimeout(function() { apiGetMembers(g); }, TIME_DELAY*i);
+    }
 
-    }*/
-
-    for (let i=0;i<groups.length;i+=25)
+    for (let i=0;i<groupIds.length;i+=25)
     {
 
-        let gg = groups.slice(i,i+25)
-
+        let gg = groupIds.slice(i,i+25)
+        apiGetMembersExecute(gg);
         //console.log(gg);
-        setTimeout(function() { apiGetMembersExecute(gg); }, TIME_DELAY*i);
+        //setTimeout(function() {  }, TIME_DELAY*i);
     }
 }
 
