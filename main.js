@@ -189,7 +189,7 @@ function apiGetMembers(groupId)
 
 }
 
-TIME_DELAY = 233;
+TIME_DELAY = 500;
 
 function getMembersStart(groups) {
     for (let i=0;i<groups.length;i++)
@@ -247,13 +247,24 @@ function checker(event)
     if (event.detail.type==="VKWebAppCallAPIMethodFailed")
     {
 
-        console.log('FAIL '+event.detail.data.error_data.error_reason.error_code+' '+event.detail.data.error_data.error_reason.error_msg);
+
+        let errorCode = event.detail.data.error_data.error_reason.error_code;
+        console.log('FAIL '+errorCode+' '+event.detail.data.error_data.error_reason.error_msg);
 
         let req = event.detail.data.request_id.split('_');
         switch ( req[0] ) {
             case "getMembers":
-                let group = req[1]
-                setTimeout(function() { apiGetMembers(group); }, TIME_DELAY);
+                let group = req[1];
+
+                if (errorCode===6)
+                {
+                    setTimeout(function() { apiGetMembers(group); }, TIME_DELAY);
+                }
+                else
+                {
+                    console.log('STOP '+group);
+                }
+
                 break;
         }
     }
