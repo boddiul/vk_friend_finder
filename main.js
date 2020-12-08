@@ -189,9 +189,16 @@ function apiGetMembers(groupId)
 
 }
 
-TIME_DELAY = 500;
+TIME_DELAY = 900;
 
+
+
+totalGroupsToCheck = -1;
+checkedGroups = -1;
 function getMembersStart(groups) {
+
+    checkedGroups = 0;
+    totalGroupsToCheck = groups.length;
     for (let i=0;i<groups.length;i++)
     {
 
@@ -238,8 +245,11 @@ function checker(event)
             case "getMembers":
 
 
+                checkedGroups+=1;
 
-                console.log('COMPLETE '+req[1]+' '+event.detail.data.response.count)
+                console.log('COMPLETE '+req[1]+' '+event.detail.data.response.count+' '+checkedGroups+'/'+totalGroupsToCheck)
+
+
                 break;
         }
     }
@@ -258,6 +268,8 @@ function checker(event)
 
                 if (errorCode===6)
                 {
+
+                    console.log('REPEAT '+group);
                     setTimeout(function() { apiGetMembers(group); }, TIME_DELAY);
                 }
                 else
