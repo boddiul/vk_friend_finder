@@ -189,7 +189,7 @@ function apiGetMembers(groupId)
 
 }
 
-TIME_DELAY = 900;
+TIME_DELAY = 300;
 
 
 
