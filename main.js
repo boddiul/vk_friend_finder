@@ -184,7 +184,7 @@ function apiGetMembersExecute(groupIds)
 
     let ss = 'return [';
     let gg = '';
-    for (let i=0;i<groupIds;i++)
+    for (let i=0;i<groupIds.length;i++)
     {
         ss+='API.groups.getMembers({"group_id":'+groupIds[i]+'})';
         gg+=groupIds[i];
