@@ -184,7 +184,7 @@ function apiGetMembersExecute(type,groupIds,offsets)
 {
 
 
-    console.log(type,groupIds,offsets)
+    //console.log(type,groupIds,offsets)
 
 
     let ss = 'return [';
