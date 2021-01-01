@@ -168,7 +168,29 @@ access_token = -1
 
 
 
+apiQueue = []
+
+function sendAPI(data,priority) {
+
+
+    apiQueue.push(data);
+    /*
+    if (priority)
+    {
+
+    }
+    else
+    {
+
+    }*/
+}
+
+
 function getUserGroups() {
+
+
+    /*
+
     send("VKWebAppCallAPIMethod", {
         "method":"groups.get",
         "request_id":"initGroups",
@@ -177,6 +199,16 @@ function getUserGroups() {
             "access_token":access_token,
             "v":"5.126"
         }});
+
+
+     */
+
+    sendAPI({"method":"groups.get",
+        "request_id":"initGroups",
+        "params": {
+            "extended":1,
+            "access_token":access_token,
+            "v":"5.126"}});
 }
 
 
@@ -207,7 +239,18 @@ function apiGetMembersExecute(type,groupIds,offsets)
     //console.log(ss);
 
 
+    /*
     send("VKWebAppCallAPIMethod", {
+        "method":"execute",
+        "request_id":"getMembersExecute_"+type+'_'+gg,
+        "params": {
+            "code":ss,
+            "access_token":access_token,
+            "v":"5.126"
+        }});
+*/
+
+    sendAPI({
         "method":"execute",
         "request_id":"getMembersExecute_"+type+'_'+gg,
         "params": {
@@ -222,6 +265,8 @@ function apiGetMembersExecute(type,groupIds,offsets)
 
 function apiGetMembers(groupId)
 {
+
+    /*
     send("VKWebAppCallAPIMethod", {
         "method":"groups.getMembers",
         "request_id":"getMembers"+'_'+groupId,
@@ -230,15 +275,27 @@ function apiGetMembers(groupId)
             "access_token":access_token,
             "v":"5.126"
         }});
+*/
+    sendAPI({
+        "method":"groups.getMembers",
+        "request_id":"getMembers"+'_'+groupId,
+        "params": {
+            "group_id":groupId,
+            "access_token":access_token,
+            "v":"5.126"
+        }});
+
 
 }
 
-TIME_DELAY = 3000;
+TIME_DELAY = 1000;
 
 
 
 //totalGroupsToCheck = -1;
 //checkedGroups = -1;
+
+
 
 
 
@@ -275,7 +332,8 @@ function getMembersStart(groups) {
         let oo = offsets.slice(i,i+25);
 
         //console.log(gg);
-        setTimeout(function() { apiGetMembersExecute('start',gg,oo); }, TIME_DELAY*i/25);
+        //setTimeout(function() {  }, TIME_DELAY*i/25);
+        apiGetMembersExecute('start',gg,oo);
     }
 }
 
@@ -438,7 +496,8 @@ function checker(event)
                 {
 
                     console.log('REPEAT '+group);
-                    setTimeout(function() { apiGetMembers(group); }, TIME_DELAY);
+                    //setTimeout(function() {  }, TIME_DELAY);
+                    apiGetMembers(group);
                 }
                 else
                 {
@@ -459,7 +518,10 @@ function checker(event)
 
 
 
-                setTimeout(function() {  apiGetMembersExecute(req[1],groupsIds,offsets); }, TIME_DELAY);
+                //setTimeout(function() {   }, TIME_DELAY);
+                apiGetMembersExecute(req[1],groupsIds,offsets);
+
+
                 break;
         }
     }
@@ -477,10 +539,27 @@ subscribe(checker)
 
 
 
+/*
 sendId = function(userId)
 {
     console.log(userId)
 }
 
 
-sendId(1000);
+sendId(1000);*/
+
+
+
+runFunction = function () {
+    console.log('test');
+    let p = apiQueue.pop();
+    if (p!==undefined)
+    {
+        console.log(p);
+        send("VKWebAppCallAPIMethod", p);
+    }
+
+
+}
+
+var t=setInterval(runFunction,TIME_DELAY);
