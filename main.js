@@ -285,7 +285,7 @@ function apiGetMembers(groupId)
 
 
 
-TIME_DELAY = 1000;
+TIME_DELAY = 333;
 
 
 
@@ -395,7 +395,9 @@ function checker(event)
                         return e['id']===groupsIds[i];
                     });
 
-                    for (let k=0;k<event.detail.data.response[i].count;k++)
+
+                    let sz = event.detail.data.response[i].items.length;
+                    for (let k=0;k<sz;k++)
                     {
                         let uu = event.detail.data.response[i].items[k].toString();
                         if (uu in userMainData)
