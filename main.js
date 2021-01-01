@@ -164,11 +164,15 @@ function supports(handler) {
 
 
 
-access_token = -1
+access_token = -1;
 
 
 
-apiQueue = []
+apiQueue = [];
+
+
+
+userMainData = {};
 
 function sendAPI(data,priority) {
 
@@ -262,20 +266,10 @@ function apiGetMembersExecute(type,groupIds,offsets)
 
 }
 
-
+/*
 function apiGetMembers(groupId)
 {
 
-    /*
-    send("VKWebAppCallAPIMethod", {
-        "method":"groups.getMembers",
-        "request_id":"getMembers"+'_'+groupId,
-        "params": {
-            "group_id":groupId,
-            "access_token":access_token,
-            "v":"5.126"
-        }});
-*/
     sendAPI({
         "method":"groups.getMembers",
         "request_id":"getMembers"+'_'+groupId,
@@ -287,6 +281,9 @@ function apiGetMembers(groupId)
 
 
 }
+*/
+
+
 
 TIME_DELAY = 1000;
 
@@ -309,9 +306,6 @@ function getMembersStart(groups) {
 
     userGroups = groups;
 
-
-
-    apiGetMembers('start',userGroups[0]);
 
     groupIds = [];
     offsets = [];
@@ -370,7 +364,7 @@ function checker(event)
                 getMembersStart(event.detail.data.response.items);
                 break;
 
-            case "getMembers":
+            /*case "getMembers":
 
 
                 checkedGroups+=1;
@@ -378,7 +372,7 @@ function checker(event)
                 console.log('COMPLETE '+req[1]+' '+event.detail.data.response.count+' '+checkedGroups+'/'+totalGroupsToCheck)
 
 
-                break;
+                break;*/
 
             case "getMembersExecute":
 
@@ -391,16 +385,30 @@ function checker(event)
                     offsets.push(Number(req[i+1]));
                 }
 
+
+
+
+
                 for (let i=0;i<groupsIds.length;i++)
                 {
                     let groupPos = userGroups.findIndex(function (e) {
                         return e['id']===groupsIds[i];
                     });
 
+                    for (let k=0;k<event.detail.data.response[i].count;k++)
+                    {
+                        let uu = event.detail.data.response[i].items[k].toString();
+                        if (uu in userMainData)
+                            userMainData[uu]+=1
+                        else
+                            userMainData[uu]=1;
+                    }
+
 
 
                     if (req[1]==='start')
                     {
+
 
 
 
@@ -426,6 +434,11 @@ function checker(event)
 
                                 for (let j=1;j*1000<event.detail.data.response[i].count;j++)
                                 {
+
+
+
+
+
                                     if (j>20)
                                         console.log(j,event.detail.data.response[i].count);
                                     newIds.push(groupsIds[i]);
@@ -460,6 +473,10 @@ function checker(event)
 
 
 
+
+
+
+
                 }
 
 
@@ -489,7 +506,8 @@ function checker(event)
 
         let req = event.detail.data.request_id.split('_');
         switch ( req[0] ) {
-            case "getMembers":
+
+            /*case "getMembers":
                 let group = req[1];
 
                 if (errorCode===6)
@@ -504,7 +522,7 @@ function checker(event)
                     console.log('STOP '+group);
                 }
 
-                break;
+                break;*/
 
             case "getMembersExecute":
 
@@ -556,6 +574,7 @@ runFunction = function () {
     if (p!==undefined)
     {
         console.log(p);
+        console.log(Object.keys(userMainData).length);
         send("VKWebAppCallAPIMethod", p);
     }
 
