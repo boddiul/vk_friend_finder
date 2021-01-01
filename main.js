@@ -395,6 +395,13 @@ function checker(event)
                         return e['id']===groupsIds[i];
                     });
 
+                    if (event.detail.data.response[i]===false)
+                    {
+                        userGroups[groupPos]['failed'] = true;
+                        userGroups[groupPos]['scanned'] = true;
+                        continue;
+                    }
+
 
                     let sz = event.detail.data.response[i].items.length;
                     for (let k=0;k<sz;k++)
@@ -441,8 +448,8 @@ function checker(event)
 
 
 
-                                    if (j>20)
-                                        console.log(j,event.detail.data.response[i].count);
+                                    //if (j>20)
+                                    //    console.log(j,event.detail.data.response[i].count);
                                     newIds.push(groupsIds[i]);
                                     newOffsets.push(j*1000);
                                     if (j % 25 ===0 || (j+1)*1000>=event.detail.data.response[i].count)
@@ -571,7 +578,7 @@ sendId(1000);*/
 
 
 runFunction = function () {
-    console.log('test');
+    //console.log('test');
     let p = apiQueue.pop();
     if (p!==undefined)
     {
