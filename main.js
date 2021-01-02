@@ -169,7 +169,7 @@ access_token = -1;
 
 
 apiQueue = [];
-
+apiFails = 0;
 
 
 userMainData = {};
@@ -285,7 +285,7 @@ function apiGetMembers(groupId)
 
 
 
-TIME_DELAY = 333;
+TIME_DELAY = 300;
 
 
 
@@ -421,7 +421,7 @@ function checker(event)
 
 
 
-                        if (event.detail.data.response[i]===false || event.detail.data.response[i].count>100000)
+                        if (event.detail.data.response[i]===false || event.detail.data.response[i].count>1000000)
                         {
                             userGroups[groupPos]['failed'] = true;
                             userGroups[groupPos]['scanned'] = true;
@@ -510,6 +510,7 @@ function checker(event)
     {
 
 
+        apiFails+=1;
         let errorCode = event.detail.data.error_data.error_reason.error_code;
         console.log('FAIL '+errorCode+' '+event.detail.data.error_data.error_reason.error_msg);
 
@@ -583,7 +584,8 @@ runFunction = function () {
     if (p!==undefined)
     {
         console.log(p);
-        console.log(Object.keys(userMainData).length);
+        console.log('API FAILS',apiFails)
+        console.log('DICT SIZE ',Object.keys(userMainData).length);
         send("VKWebAppCallAPIMethod", p);
     }
 
